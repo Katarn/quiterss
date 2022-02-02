@@ -20,7 +20,7 @@
 
 #include <QtWidgets>
 #include <QtSql>
-#include <QtWebKit>
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
 
 #include "feedsproxymodel.h"
 #include "feedsmodel.h"

@@ -19,13 +19,13 @@
 #define WEBPAGE_H
 
 #include <QNetworkAccessManager>
-#include <QWebPage>
+#include <QWebEnginePage>
 #include <QSslCertificate>
 
 class NetworkManagerProxy;
 class AdBlockRule;
 
-class WebPage : public QWebPage
+class WebPage : public QWebEnginePage
 {
   Q_OBJECT
 public:
@@ -43,7 +43,7 @@ public:
 
   void disconnectObjects();
 
-  bool acceptNavigationRequest(QWebFrame *frame,
+  bool acceptNavigationRequest(QWebEnginePage *frame,
                                const QNetworkRequest &request,
                                NavigationType type);
   void populateNetworkRequest(QNetworkRequest &request);
@@ -59,7 +59,7 @@ public:
   bool containsRejectedCerts(const QList<QSslCertificate> &certs);
 
 protected slots:
-  QWebPage *createWindow(WebWindowType type);
+  QWebEnginePage *createWindow(QWebEnginePage::WebWindowType type);
   void handleUnsupportedContent(QNetworkReply* reply);
 
 private slots:
@@ -68,12 +68,12 @@ private slots:
   void downloadRequested(const QNetworkRequest &request);
   void cleanBlockedObjects();
   void urlChanged(const QUrl &url);
-  void slotFullScreenRequested(QWebFullScreenRequest fullScreenRequest);
+//  void slotFullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest);
 
 private:
   NetworkManagerProxy *networkManagerProxy_;
 
-  QWebPage::NavigationType lastRequestType_;
+  QWebEnginePage::NavigationType lastRequestType_;
   QUrl lastRequestUrl_;
 
   bool adjustingScheduled_;
