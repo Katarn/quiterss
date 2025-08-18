@@ -1393,12 +1393,6 @@ void MainWindow::createActions()
   livejournalShareAct_->setIcon(QIcon(":/share/images/share/livejournal.png"));
   shareGroup_->addAction(livejournalShareAct_);
 
-  pocketShareAct_ = new QAction(this);
-  pocketShareAct_->setObjectName("pocketShareAct");
-  pocketShareAct_->setText("Pocket");
-  pocketShareAct_->setIcon(QIcon(":/share/images/share/pocket.png"));
-  shareGroup_->addAction(pocketShareAct_);
-
   twitterShareAct_ = new QAction(this);
   twitterShareAct_->setObjectName("twitterShareAct");
   twitterShareAct_->setText("Twitter");

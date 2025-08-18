@@ -1,6 +1,7 @@
 Version 0.20.0 (...)
   * Removed: Qt4 and Qt5 < 5.15 support
   * Removed: Click2Flash plugin
+  * Removed: Share news: Pocket
 
 Version 0.19.4 (21 Apr 2020)
   * Added: Share. Viber, Telegram

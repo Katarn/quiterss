@@ -2654,12 +2654,6 @@ void NewsTabWidget::slotShareNews(QAction *action)
       urlQuery.addQueryItem("event", linkString);
       urlQuery.addQueryItem("subject", title);
       url.setQuery(urlQuery);
-    } else if (action->objectName() == "pocketShareAct") {
-      url.setUrl("https://getpocket.com/save");
-      QUrlQuery urlQuery;
-      urlQuery.addQueryItem("url", linkString);
-      urlQuery.addQueryItem("title", title);
-      url.setQuery(urlQuery);
     } else if (action->objectName() == "twitterShareAct") {
       url.setUrl("https://twitter.com/share");
       QUrlQuery urlQuery;
