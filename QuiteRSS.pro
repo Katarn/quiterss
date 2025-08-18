@@ -31,21 +31,10 @@ exists(.git) {
   }
 }
 
-isEqual(QT_MAJOR_VERSION, 5) {
-  QT += widgets webkitwidgets network xml printsupport sql multimedia
-  DEFINES += HAVE_QT5
-  equals(WEBKIT_ALPHA, true) {
-      DEFINES += WEBKIT_ALPHA
-  }
-} else {
-  QT += core gui network xml webkit sql
-  os2 {
-    DISABLE_PHONON = 1
-  }
-  isEmpty(DISABLE_PHONON) {
-    QT += phonon
-    DEFINES += HAVE_PHONON
-  }
+QT += widgets webkitwidgets network xml printsupport sql multimedia
+
+equals(WEBKIT_ALPHA, true) {
+    DEFINES += WEBKIT_ALPHA
 }
 
 unix:!mac:DEFINES += HAVE_X11
@@ -226,9 +215,7 @@ isEmpty(SYSTEMQTSA) {
 } else {
   CONFIG += qtsingleapplication
 }
-isEqual(QT_MAJOR_VERSION, 5) {
-  include(3rdparty/qftp/qftp.pri)
-}
+include(3rdparty/qftp/qftp.pri)
 include(3rdparty/sqlite.pri)
 include(lang/lang.pri)
 include(3rdparty/qupzilla/qupzilla.pri)

@@ -252,16 +252,12 @@ QString Common::operatingSystem()
   case QSysInfo::WV_WINDOWS8:
     str.append(" 6.2");
     break;
-#if QT_VERSION >= 0x050400
   case QSysInfo::WV_WINDOWS8_1:
     str.append(" 6.3");
     break;
-#endif
-#if QT_VERSION >= 0x050600
   case QSysInfo::WV_WINDOWS10:
     str.append(" 10.0");
     break;
-#endif
   default:
     break;
   }
@@ -272,23 +268,17 @@ QString Common::operatingSystem()
 
 QString Common::cpuArchitecture()
 {
-#if QT_VERSION >= 0x050400
   return QSysInfo::currentCpuArchitecture();
-#else
-  return "";
-#endif
 }
 
 QString Common::operatingSystemLong()
 {
   QString os = Common::operatingSystem();
-#if QT_VERSION >= 0x050400
 #ifdef Q_OS_UNIX
     if (QGuiApplication::platformName() == QL1S("xcb"))
         os.prepend(QL1S("X11; "));
     else if (QGuiApplication::platformName().startsWith(QL1S("wayland")))
         os.prepend(QL1S("Wayland; "));
-#endif
 #endif
 
   const QString arch = cpuArchitecture();

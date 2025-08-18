@@ -55,11 +55,7 @@ OptionsDialog::OptionsDialog(QWidget *parent)
   categoriesTree_->setColumnHidden(0, true);
   categoriesTree_->header()->setStretchLastSection(false);
   categoriesTree_->header()->resizeSection(2, 5);
-#ifdef HAVE_QT5
   categoriesTree_->header()->setSectionResizeMode(1, QHeaderView::Stretch);
-#else
-  categoriesTree_->header()->setResizeMode(1, QHeaderView::Stretch);
-#endif
   categoriesTree_->setMinimumWidth(150);
   QStringList treeItem;
   treeItem << "0" << tr("General");
@@ -168,11 +164,7 @@ OptionsDialog::OptionsDialog(QWidget *parent)
 
 void OptionsDialog::showEvent(QShowEvent*event)
 {
-#ifdef HAVE_QT5
   const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
-#else
-  const QRect screenGeometry = QApplication::desktop()->availableGeometry();
-#endif
   int desktopWidth = screenGeometry.width();
   int desktopHeight = screenGeometry.height();
   int maxWidth = desktopWidth - (frameSize().width() - width());
@@ -746,10 +738,7 @@ void OptionsDialog::createBrowserWidget()
   browserWidget_ = new QTabWidget();
   browserWidget_->addTab(generalBrowserWidget, tr("General"));
   browserWidget_->addTab(historyBrowserWidget_, tr("History"));
-#if QT_VERSION < 0x050900
   browserWidget_->addTab(click2FlashWidget_, tr("Click to Flash"));
-#endif
-  browserWidget_->addTab(downloadsWidget, tr("Downloads"));
 }
 
 /** @brief Create windet "Feeds"
@@ -1108,11 +1097,7 @@ void OptionsDialog::createNotifierWidget()
 
   screenNotify_ = new QComboBox();
 
-#ifdef HAVE_QT5
   const int screenCount = QApplication::screens().size();
-#else
-  const int screenCount = QApplication::desktop()->screenCount();
-#endif
   for (int i = 0; i < screenCount; ++i) {
     screenNotify_->addItem(QString::number(i));
   }

@@ -223,7 +223,7 @@ void MainApplication::connectDatabase()
     }
   }
 
-#if defined(HAVE_QT5) && defined(HAVE_X11)
+#if defined(HAVE_X11)
   fileName = "~/.local/share/data/QuiteRss/QuiteRss/feeds.db";
   if (!QFile(dbFileName()).exists() && QFile(fileName).exists()) {
     QFile::copy(fileName, dbFileName());
@@ -265,11 +265,7 @@ void MainApplication::quitApplication()
 
 void MainApplication::showClosingWidget()
 {
-#ifdef HAVE_QT5
   const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
-#else
-  const QRect screenGeometry = QApplication::desktop()->availableGeometry();
-#endif
   closingWidget_ = new QWidget(0, Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
   closingWidget_->setFocusPolicy(Qt::NoFocus);
   QVBoxLayout *layout = new QVBoxLayout(closingWidget_);
@@ -539,10 +535,7 @@ void MainApplication::c2fLoadSettings()
   Settings settings;
   settings.beginGroup("ClickToFlash");
   c2fWhitelist_ = settings.value("whitelist", QStringList()).toStringList();
-  c2fEnabled_ = settings.value("enabled", true).toBool();
-#if QT_VERSION >= 0x050900
   c2fEnabled_ = false;
-#endif
   settings.endGroup();
 }
 

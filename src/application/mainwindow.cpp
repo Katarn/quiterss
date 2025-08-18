@@ -52,9 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
   , newsFilterAction_(NULL)
   , newsView_(NULL)
   , updateTimeCount_(0)
-#if defined(HAVE_QT5) || defined(HAVE_PHONON)
   , mediaPlayer_(NULL)
-#endif
   , updateAppDialog_(NULL)
   , notificationWidget(NULL)
   , feedIdOld_(-2)
@@ -425,17 +423,10 @@ void MainWindow::createFeedsWidget()
   for (int i = 0; i < feedsView_->model()->columnCount(); ++i)
     feedsView_->hideColumn(i);
   feedsView_->showColumn(feedsView_->columnIndex("text"));
-#ifdef HAVE_QT5
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("text"), QHeaderView::Stretch);
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("unread"), QHeaderView::ResizeToContents);
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("undeleteCount"), QHeaderView::ResizeToContents);
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("updated"), QHeaderView::ResizeToContents);
-#else
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("text"), QHeaderView::Stretch);
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("unread"), QHeaderView::ResizeToContents);
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("undeleteCount"), QHeaderView::ResizeToContents);
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("updated"), QHeaderView::ResizeToContents);
-#endif
 
   feedsToolBar_ = new QToolBar(this);
   feedsToolBar_->setObjectName("feedsToolBar");
@@ -2855,15 +2846,9 @@ void MainWindow::slotExportFeeds()
 void MainWindow::slotFeedsViewportUpdate()
 {
   feedsView_->viewport()->update();
-#ifdef HAVE_QT5
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("unread"), QHeaderView::ResizeToContents);
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("undeleteCount"), QHeaderView::ResizeToContents);
   feedsView_->header()->setSectionResizeMode(feedsView_->columnIndex("updated"), QHeaderView::ResizeToContents);
-#else
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("unread"), QHeaderView::ResizeToContents);
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("undeleteCount"), QHeaderView::ResizeToContents);
-  feedsView_->header()->setResizeMode(feedsView_->columnIndex("updated"), QHeaderView::ResizeToContents);
-#endif
 }
 // ----------------------------------------------------------------------------
 void MainWindow::slotFeedCountsUpdate(FeedCountStruct counts)
@@ -5921,7 +5906,6 @@ void MainWindow::slotPlaySound(const QString &path)
   bool useMediaPlayer = settings.value("Settings/useMediaPlayer", true).toBool();
 
   if (useMediaPlayer) {
-#ifdef HAVE_QT5
     if (mediaPlayer_ == NULL) {
       playlist_ = new QMediaPlaylist(this);
       mediaPlayer_ = new QMediaPlayer(this);
@@ -5939,31 +5923,6 @@ void MainWindow::slotPlaySound(const QString &path)
     }
 
     playing = true;
-#else
-#ifdef HAVE_PHONON
-    if (mediaPlayer_ == NULL) {
-      mediaPlayer_ = new Phonon::MediaObject(this);
-      audioOutput_ = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-      Phonon::createPath(mediaPlayer_, audioOutput_);
-      connect(mediaPlayer_, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-              this, SLOT(mediaStateChanged(Phonon::State,Phonon::State)));
-    }
-
-    if (mediaPlayer_->state() == Phonon::ErrorState)
-      mediaPlayer_->clear();
-
-    if ((mediaPlayer_->state() != Phonon::PausedState) &&
-        (mediaPlayer_->state() != Phonon::StoppedState)) {
-      mediaPlayer_->enqueue(soundPath);
-    }
-    else {
-      mediaPlayer_->setCurrentSource(soundPath);
-    }
-    mediaPlayer_->play();
-
-    playing = true;
-#endif
-#endif
   }
 
   if (!playing) {
@@ -5975,7 +5934,6 @@ void MainWindow::slotPlaySound(const QString &path)
   }
 }
 
-#ifdef HAVE_QT5
 void MainWindow::mediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
   if (status == QMediaPlayer::EndOfMedia) {
@@ -5990,19 +5948,6 @@ void MainWindow::mediaError(QMediaPlayer::Error error)
                  arg(error).
                  arg(codec->toUnicode(mediaPlayer_->errorString().toUtf8()));
 }
-#endif
-
-#ifdef HAVE_PHONON
-void MainWindow::mediaStateChanged(Phonon::State newstate, Phonon::State)
-{
-  if (newstate == Phonon::ErrorState) {
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    qCritical() << QString("Error Phonon: %1 - %2").
-                   arg(mediaPlayer_->errorType()).
-                   arg(codec->toUnicode(mediaPlayer_->errorString().toUtf8()));
-  }
-}
-#endif
 
 void MainWindow::slotPlaySoundNewNews()
 {
@@ -6834,9 +6779,7 @@ void MainWindow::showNotification(bool bShowRecentNews/*=false*/)
     GetWindowRect(GetDesktopWindow(), &rc);
 
     if ((hWnd != GetDesktopWindow())
-   #ifdef HAVE_QT5
        && (hWnd != GetShellWindow())
-   #endif
        ) {
       GetWindowRect(hWnd, &appBounds);
       if ((rc.top == appBounds.top) && (rc.bottom == appBounds.bottom) &&

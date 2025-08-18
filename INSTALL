@@ -1,7 +1,7 @@
 Build depends:
   GCC or Clang compiler
   SQLite version 3.30.1 or newer
-  Qt version 4.7.* or 4.8.* or 5.4.*
+  Qt version 5.15.*
   Required Qt development tools:
     qmake
     lrelease
@@ -31,7 +31,6 @@ By default qmake uses gcc, for using clang you need to alter qmake command:
   qmake QMAKE_CC=clang QMAKE_CXX=clang++ QMAKE_LINK=clang++ QMAKE_LINK_C=clang CONFIG+=release PREFIX=/usr ../QuiteRSS.pro
 
 For building with system qtsingleapplication add SYSTEMQTSA=1 to qmake command.
-For building without phonon add DISABLE_PHONON=1 to qmake command.
 
 Instruction for Windows:
   Visual Studio:
