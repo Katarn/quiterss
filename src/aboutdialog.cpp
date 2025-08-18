@@ -22,6 +22,11 @@
 
 #include <sqlite3.h>
 #include <QWebEnginePage>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#include <QtWebEngineCore/QtWebEngineCore>
+#else
+#include <QtWebEngine/qtwebengineversion.h>
+#endif
 
 AboutDialog::AboutDialog(const QString &lang, QWidget *parent) :
   Dialog(parent, Qt::MSWindowsFixedSizeDialogHint)
@@ -37,6 +42,13 @@ AboutDialog::AboutDialog(const QString &lang, QWidget *parent) :
   if (QString("%1").arg(VCS_REVISION) != "0") {
       revisionStr = "<BR>" + tr("Revision") + " " + QString("%1").arg(VCS_REVISION);
   }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+  const QString chromiumVersion = qWebEngineChromiumVersion();
+#else
+  const QString chromiumVersion = QWebEngineSettings::globalSettings()->webEngineVersion();
+#endif
+
   QString appInfo =
       "<html><style>a { color: blue; text-decoration: none; }</style><body>"
       "<CENTER>"
@@ -49,8 +61,8 @@ AboutDialog::AboutDialog(const QString &lang, QWidget *parent) :
       + "<BR>"
       + tr("QuiteRSS is a open-source cross-platform RSS/Atom news reader")
       + "<P>" + tr("Includes:")
-      + QString(" Qt-%1, SQLite-%2, WebEngine-%4").
-      arg(QT_VERSION_STR).arg(SQLITE_VERSION).arg("83.0.4103.122") //.arg(qWebKitVersion())
+      + QString(" Qt-%1, SQLite-%2, WebEngine-%4, Chromium-%5").
+      arg(QT_VERSION_STR).arg(SQLITE_VERSION).arg(QT_WEBENGINE_VERSION_STR).arg(chromiumVersion)
       + "</P>"
       + QString("<a href=\"%1\">%1</a>").arg("https://quiterss.org") +
       "<P>Copyright &copy; 2011-2021 QuiteRSS Team "
