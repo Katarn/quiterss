@@ -254,8 +254,6 @@ private slots:
   void slotShowPass();
   void selectionUserStyleBrowser();
   void selectionDirDiskCache();
-  void addWhitelist();
-  void removeWhitelist();
   void selectionDownloadLocation();
 
 private:
@@ -309,10 +307,6 @@ private:
 
   // browser
   void createBrowserWidget();
-  void applyWhitelist();
-
-  QCheckBox *c2fEnabled_;
-  QTreeWidget *c2fWhitelist_;
 
   // feeds
   void createFeedsWidget();

@@ -74,13 +74,6 @@ public:
   void runUserFilter(int feedId, int filterId);
   DownloadManager *downloadManager();
 
-  void c2fLoadSettings();
-  void c2fSaveSettings();
-  bool c2fIsEnabled() const;
-  void c2fSetEnabled(bool enabled);
-  QStringList c2fGetWhitelist();
-  void c2fSetWhitelist(QStringList whitelist);
-  void c2fAddWhitelist(const QString &site);
 
   void setTranslateApplication();
   QString language() const { return langFileName_; }
@@ -139,9 +132,6 @@ private:
   UpdateFeeds *updateFeeds_;
   DownloadManager *downloadManager_;
   QWidget *closingWidget_;
-
-  QStringList c2fWhitelist_;
-  bool c2fEnabled_;
 
   QNetworkProxy networkProxy_;
   GAnalytics *analytics_;
