@@ -33,10 +33,6 @@ exists(.git) {
 
 QT += widgets webkitwidgets network xml printsupport sql multimedia
 
-equals(WEBKIT_ALPHA, true) {
-    DEFINES += WEBKIT_ALPHA
-}
-
 unix:!mac:DEFINES += HAVE_X11
 
 TEMPLATE = app

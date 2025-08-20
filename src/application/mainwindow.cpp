@@ -2090,10 +2090,6 @@ void MainWindow::loadSettings()
   QWebSettings::globalSettings()->setAttribute(
         QWebSettings::PluginsEnabled, pluginsEnable_);
   QWebSettings::globalSettings()->setMaximumPagesInCache(maxPagesInCache_);
-#ifdef WEBKIT_ALPHA
-  QWebSettings::globalSettings()->setAttribute(
-        QWebSettings::ErrorPageEnabled, false);
-#endif
   QWebSettings::globalSettings()->setOfflineStorageDefaultQuota(0);
   QWebSettings::globalSettings()->setOfflineStoragePath(mainApp->dataDir());
 
